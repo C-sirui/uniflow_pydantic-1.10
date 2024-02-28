@@ -35,13 +35,15 @@ class LmModel(AbsModel):
             output_strings = []
             prompt_template = copy.deepcopy(self._prompt_template)
             if not prompt_template.instruction and not prompt_template.few_shot_prompt:
-                for key, value in d.model_dump().items():
+                # for key, value in d.model_dump().items():
+                for key, value in d.dict().items():
                     output_strings.append(f"{key}: {value}")
             else:
                 prompt_template.few_shot_prompt.append(d)
                 output_strings.append(f"instruction: {prompt_template.instruction}")
                 for example in prompt_template.few_shot_prompt:
-                    for ex_key, ex_value in example.model_dump().items():
+                    # for ex_key, ex_value in example.model_dump().items():
+                    for ex_key, ex_value in example.dict().items():
                         output_strings.append(f"{ex_key}: {ex_value}")
 
             # Join all the strings into one large string, separated by new lines
@@ -89,7 +91,8 @@ class JsonLmModel(AbsModel):
             )
 
             prompt_template.few_shot_prompt.append(d)
-            output.append(prompt_template.model_dump())
+            # output.append(prompt_template.model_dump())
+            output.append(prompt_template.dict())
         return [json.dumps(d) for d in output]
 
     def _deserialize(self, data: List[str]) -> List[Dict[str, Any]]:

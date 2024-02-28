@@ -36,7 +36,7 @@ class Context(BaseModel):
         # Extract the known fields
         known_fields = self.model_json_schema()["properties"]
 
-        schema_dict = self.model_dump()
+        schema_dict = self.dict()
 
         # Get keys that are not part of known_fields
         extra_properties = [key for key in schema_dict if key not in known_fields]
